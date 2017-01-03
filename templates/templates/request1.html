@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Request
+{% endblock %}
+
+{% block main %}
+<form action="{{ url_for('request1') }}" method="post">
+  
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Request Form</legend>
+    <div class="form-group">
+      <label for="inputFac" class="col-lg-2 control-label">Faculty e-mail:</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" name="inputFac" placeholder="Enter faculty email...">
+      </div>
+    </div>
+    
+    <br /><br />
+    
+    <div class="form-group">
+      <label for="inputTime" class="col-lg-2 control-label">Meeting date and time:</label>
+      <div class="col-lg-10">
+        <p>Tip: Search faculty to check their availability!</p>
+        <input type="text" class="form-control" name="inputDate" id ="inputDate" placeholder="Please enter a date for the meeting...">
+      </div>
+    </div>
+    
+    <br /><br /><br /><br />
+    
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <input type="text" class="form-control" name="inputTime" id = "inputTime" placeholder="Please enter a time for the meeting...">
+      </div>
+    </div>
+    
+    <br /><br /><br />
+    
+    <div class="form-group">
+      <label for="select" class="col-lg-2 control-label">Additional students (excluding yourself):</label>
+      <div class="col-lg-10">
+        <select class="form-control" id = "num_students">
+          <option value = "0">0</option>
+          <option value = "1">1</option>
+          <option value = "2">2</option>
+          <option value = "3">3</option>
+          <option value = "4">4</option>
+        </select>
+      </div>
+    </div>
+    
+    <br /><br />
+    
+    <div id = "text_fields"></div>
+    
+    <br />
+    
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Restaurant choice:</label>
+      <div class="col-lg-10">
+        <p>Tip: Check out the Restaurants page!</p>
+        <div class="radio">
+          <label>
+            <input type="radio" name="restaurant" id="Grafton_Street" value="Grafton Street">
+            Grafton Street
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="restaurant" id="Park_Restaurant" value="Park Restaurant">
+            Park Restaurant
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="restaurant" id="Russell_House_Tavern" value="Russell House Tavern">
+            Russell House Tavern
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="restaurant" id="Legal_Sea_Foods" value="Legal Sea Foods">
+            Legal Sea Foods
+          </label>
+        </div>
+        <div class="radio" style = "padding-bottom:25px">
+          <label>
+            <input type="radio" name="restaurant" id="Red_House" value="Red House">
+            Red House 
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="reset" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+    
+    <br /><br /><br /><br />
+  </fieldset>
+  
+  <br /><br /><br /><br />
+  
+  <script>
+      document.getElementById("num_students").addEventListener("change", function(){
+        var additional = parseInt(document.getElementById("num_students").value)
+        if (additional == 0) {
+          document.getElementById("text_fields").innerHTML = "<div class = 'col-lg-12'></div>";
+          return
+        }
+        if (additional == 1){
+          document.getElementById("text_fields").innerHTML = "<div class = 'form-group'><label for='text' class='col-lg-1 col-lg-offset-2 control-label'>"
+          + "Email:</label>";  
+        } else {
+          document.getElementById("text_fields").innerHTML = "<div class = 'form-group'><label for='text' class='col-lg-1 col-lg-offset-2 control-label'>"
+          + "Emails:</label>";
+        }
+        
+        for(var i = 0; i < additional; i++){
+          if (i < 1){
+          document.getElementById("text_fields").innerHTML += "<div class = 'col-lg-9'>"
+          + "<input type = 'text' class = 'form-control' name = 'other_students' placeholder = 'Enter email...'></div><br /><br /><br />";  
+          } else{
+            document.getElementById("text_fields").innerHTML += "<div class = 'col-lg-9 col-lg-offset-3'>"
+          + "<input type = 'text' class = 'form-control' name = 'other_students' placeholder = 'Enter email...'/></div><br /><br /><br />"; 
+          }
+          
+        }
+        
+        document.getElementById("text_fields").innerHTML += "</div>";
+        
+        });
+      
+    </script>
+    
+    <link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.css">
+    <link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.date.css">
+    <link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.time.css"> 
+    <script src="https://common.olemiss.edu/_js/pickadate.js"></script>
+    <script type="text/javascript">
+      // PICKADATE FORMATTING
+    	$('#inputDate').pickadate({
+    		format: 'mmmm d, yyyy', 	// Friendly format displayed to user
+    		formatSubmit: 'mm/dd/yyyy',	// Actual format used by application
+    		//hiddenName: true			// Allows two different formats
+    	});
+    	
+    	$('#inputTime').pickatime();
+    </script>
+    
+</form>
+
+{% endblock %}

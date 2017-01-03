@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Faculty Home
+{% endblock %}
+
+{% block main %}
+<form action="{{ url_for('index') }}" method="post">
+  
+<link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.css">
+<link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.date.css">
+<link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.time.css"> 
+
+<div class="jumbotron">
+  <h1 align ="center" style="padding-bottom:30px">My Profile</h1>
+  <div class="panel panel-success col-lg-4">
+    <div class="panel-heading">
+      <h3 class="panel-title" align = "center">Email Address</h3>
+    </div>
+    <div class="panel-body" align="center">
+      {{ credentials[0] }}
+    </div>
+  </div>
+  
+  <div class="panel panel-danger col-lg-4">
+    <div class="panel-heading">
+      <h3 class="panel-title" align = "center">Name</h3>
+    </div>
+    <div class="panel-body" align="center">
+      {{ credentials[1] }}
+    </div>
+  </div>
+  
+  <div class="panel panel-info col-lg-4">
+    <div class="panel-heading">
+      <h3 class="panel-title" align = "center">Department Affiliation</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        {% for dept in credentials[2:] %}
+        <li>
+          {{ dept }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <p><a href = "{{ url_for('update') }}" class="btn btn-primary btn-lg">Update</a></p>
+</div>
+
+
+<legend>My Events</legend>
+<table class="table table-striped table-hover">
+  <tbody>
+    {% for request in requests %}
+    <tr class="warning">
+      <td>
+        <p style="font-size:12pt; color:#424949">
+            You have confirmed a meal with <strong>{{ request["pref_name"] }}</strong> at <strong>{{ request["restaurant"] }}</strong> on 
+            <strong>{{ request["date"] }}</strong> at <strong>{{ request["time"] }}</strong>.
+        </p>
+      </td>
+      <td>
+          <button class="btn btn-default" name = "undo" type="submit" value = {{ request['id'] }}>Undo</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Update Profile
+{% endblock %}
+
+{% block main %}
+    <form action="{{ url_for('update') }}" method="post">
+      
+      <!--Per Flask's documentation on error messages-->
+      {% if error %}
+          <div align="center" style ="color:red">
+          <p class=error><strong>Error:</strong> {{ error }}</p>
+          </div>
+      {% endif %}
+        
+      <div class="form-group">
+        <label for="email" class="col-lg-2 control-label">Email</label>
+        <div class="col-lg-10" style="margin-bottom: 10px;">
+          <input type="email" class="form-control" name = "email" id="email" placeholder= "Email...">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="first_name" class="col-lg-2 control-label">First name</label>
+        <div class="col-lg-10" style="margin-bottom: 10px;">
+          <input type="text" class="form-control" name = "first_name" id="first_name" placeholder="Please enter your full first name...">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="last_name" class="col-lg-2 control-label">Last name</label>
+        <div class="col-lg-10" style="margin-bottom: 25px;">
+          <input type="text" class="form-control" name = "last_name" id="last_name" placeholder="Please enter your full last name...">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2", style="margin-bottom: 20px;">
+          <div class="radio">
+            <label>
+              <input type="radio" name="update_depts" id="update_depts" value="update">
+              Update departments
+            </label>
+          </div>
+        </div>
+      </div>
+    
+    
+    <div id="depts"></div>
+
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2" style = "margin-bottom: 50px">
+        <button type="submit" class="btn btn-success">Save changes</button>
+      </div>
+    </div>
+    
+    <!--Script included here until we can figure out how to extract to external file-->
+    <script>
+      document.getElementById("update_depts").addEventListener("click", function(){
+          document.getElementById("depts").innerHTML = '<div class="form-group">'
+          + '<div class="col-lg-10 col-lg-offset-2", style="margin-bottom: 20px;">Select at most five:</div>'
+          + '<div class="container"><div class="col-lg-10 col-lg-offset-2", style="margin-bottom: 10px;">'
+          + '<div class="container"><div class="col-lg-10", style="margin-bottom: 20px;">'
+          + '<input type="checkbox" name = "departments" id = "dept0" onchange = "maxfive(this)" value = "Physics"> Physics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept1" onchange = "maxfive(this)" value = "Mathematics"> Mathematics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept2" onchange = "maxfive(this)" value = "Economics"> Economics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept3" onchange = "maxfive(this)" value = "Psychology"> Psychology <br />'
+          + '<input type="checkbox" name = "departments" id = "dept4" onchange = "maxfive(this)" value = "History"> History <br />'
+          + '<input type="checkbox" name = "departments" id = "dept5" onchange = "maxfive(this)" value = "Literature"> Literature <br/>'
+          + '<input type="checkbox" name = "departments" id = "dept6" onchange = "maxfive(this)" value = "Computer Science"> Computer Science <br />'
+          + '<input type="checkbox" name = "departments" id = "dept7" onchange = "maxfive(this)" value = "Molecular and Cellular Biology"> Molecular and Cellular Biology <br />'
+          + '<input type="checkbox" name = "departments" id = "dept8" onchange = "maxfive(this)" value = "Mechanical Engineering">Mechanical Engineering</div></div>';
+      });
+      
+      // ensures that user cannot check more than 5 boxes
+      function maxfive(box){
+        // change this variable's value if number of departments changes
+        var num_depts = 9;
+        
+        // counter variable
+        var count_checks = 0;
+        
+        for (var i=0; i<num_depts; i++){
+          if (document.getElementById("dept" + i.toString()).checked){
+            count_checks += 1;
+          }
+        }
+        
+        if (count_checks > 5){
+          box.checked = false;
+        }
+      }
+    </script>
+    
+    </form>
+
+{% endblock %}

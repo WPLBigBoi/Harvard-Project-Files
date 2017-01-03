@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="{{ url_for('register') }}" method="post">
+      
+      <!--Per Flask's documentation on error messages-->
+      {% if error %}
+          <div align="center" style ="color:red">
+          <p class=error><strong>Error:</strong> {{ error }}</p>
+          </div>
+      {% endif %}
+        
+      <div class="form-group">
+        <label for="email" class="col-lg-2 control-label">Email</label>
+        <div class="col-lg-10" style="margin-bottom: 10px;">
+          <input type="email" class="form-control" name = "email" id="email" placeholder= "Email...">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password" class="col-lg-2 control-label">Password</label>
+        <div class="col-lg-10" style="margin-bottom: 10px;">
+          <input type="password" class="form-control" name = "password" id="password" placeholder="Password..." onchange = "check_password()">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="re_password" class="col-lg-2 control-label">Re-enter Password</label>
+        <div class="col-lg-10" style="margin-bottom: 35px;">
+          <input type="password" class="form-control" name = "re_password" id="re_password" placeholder="Re-enter Password..." onchange = "check_password()">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="first_name" class="col-lg-2 control-label">First name</label>
+        <div class="col-lg-10" style="margin-bottom: 10px;">
+          <input type="text" class="form-control" name = "first_name" id="first_name" placeholder="Please enter your full first name...">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="last_name" class="col-lg-2 control-label">Last name</label>
+        <div class="col-lg-10" style="margin-bottom: 25px;">
+          <input type="text" class="form-control" name = "last_name" id="last_name" placeholder="Please enter your full last name...">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Type of user</label>
+        <div class="col-lg-10", style="margin-bottom: 20px;">
+          <div class="radio">
+            <label>
+              <input type="radio" name="type_user" id="TypeUserOption1" value="Student">
+              Student
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="type_user" id="TypeUserOption2" value="Faculty">
+              Faculty
+            </label>
+          </div>
+        </div>
+      </div>
+      
+    <div id="depts"></div>
+
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2" style = "margin-bottom: 50px">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+    
+    <script>
+      document.getElementById("TypeUserOption1").addEventListener("click", function(){
+          document.getElementById("depts").innerHTML = '<div class="form-group">'
+          + '<div class="col-lg-10 col-lg-offset-2", style="margin-bottom: 20px;">Which of the following departments interest you? This information'
+          + ' will be used to keep you updated on upcoming events.</div>'
+          + '<label class="col-lg-2 control-label">Select up to 5:</label>'
+          + '<div class="container"><div class="col-lg-10", style="margin-bottom: 10px;">'
+          + '<input type="checkbox" name = "departments" id = "dept0" onchange = "maxfive(this)" value = "Physics"/> Physics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept1" onchange = "maxfive(this)" value = "Mathematics"/> Mathematics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept2" onchange = "maxfive(this)" value = "Economics"/> Economics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept3" onchange = "maxfive(this)" value = "Psychology"/> Psychology <br />'
+          + '<input type="checkbox" name = "departments" id = "dept4" onchange = "maxfive(this)" value = "History"/> History <br />'
+          + '<input type="checkbox" name = "departments" id = "dept5" onchange = "maxfive(this)" value = "Literature"/> Literature <br/>'
+          + '<input type="checkbox" name = "departments" id = "dept6" onchange = "maxfive(this)" value = "Computer Science"/> Computer Science <br />'
+          + '<input type="checkbox" name = "departments" id = "dept7" onchange = "maxfive(this)" value = "Molecular and Cellular Biology"/> Molecular and Cellular Biology <br />'
+          + '<input type="checkbox" name = "departments" id = "dept8" onchange = "maxfive(this)" value = "Mechanical Engineering"/> Mechanical Engineering</div></div>';
+      });
+          
+      document.getElementById("TypeUserOption2").addEventListener("click", function(){
+          document.getElementById("depts").innerHTML = '<div class="form-group">'
+          + '<div class="col-lg-10 col-lg-offset-2", style="margin-bottom: 20px;">With which department(s) are you affiliated?</div>'
+          + '<label class="col-lg-2 control-label">Select up to 5:</label>'
+          + '<div class="container"><div class="col-lg-10", style="margin-bottom: 20px;">'
+          + '<input type="checkbox" name = "departments" id = "dept0" onchange = "maxfive(this)" value = "Physics"/> Physics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept1" onchange = "maxfive(this)" value = "Mathematics"/> Mathematics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept2" onchange = "maxfive(this)" value = "Economics"/> Economics <br />'
+          + '<input type="checkbox" name = "departments" id = "dept3" onchange = "maxfive(this)" value = "Psychology"/> Psychology <br />'
+          + '<input type="checkbox" name = "departments" id = "dept4" onchange = "maxfive(this)" value = "History"/> History <br />'
+          + '<input type="checkbox" name = "departments" id = "dept5" onchange = "maxfive(this)" value = "Literature"/> Literature <br/>'
+          + '<input type="checkbox" name = "departments" id = "dept6" onchange = "maxfive(this)" value = "Computer Science"/> Computer Science <br />'
+          + '<input type="checkbox" name = "departments" id = "dept7" onchange = "maxfive(this)" value = "Molecular and Cellular Biology"/> Molecular and Cellular Biology <br />'
+          + '<input type="checkbox" name = "departments" id = "dept8" onchange = "maxfive(this)" value = "Mechanical Engineering"/> Mechanical Engineering</div></div>';
+      });
+      
+      function check_password(){
+          if (document.getElementById('password').value==document.getElementById('re_password').value){
+              document.getElementById('re_password').style.borderColor = "green";
+              document.getElementById('re_password').style.borderWidth = "3px";
+          }
+          else {
+              document.getElementById('re_password').style.borderColor = "red";
+              document.getElementById('re_password').style.borderWidth = "3px";
+          }
+      }
+      
+      // ensures that user cannot check more than 5 boxes
+      function maxfive(box){
+        // change this variable's value if number of departments changes
+        var num_depts = 9;
+        
+        // counter variable
+        var count_checks = 0;
+        
+        for (var i=0; i<num_depts; i++){
+          if (document.getElementById("dept" + i.toString()).checked){
+            count_checks += 1;
+          }
+        }
+        
+        if (count_checks > 5){
+          box.checked = false;
+        }
+      }
+    </script>
+    
+    </form>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    MyRequests
+{% endblock %}
+
+{% block main %}
+<form action="{{ url_for('MyRequests') }}" method="post">
+
+<fieldset>
+<legend>My Requests</legend>
+<table class="table table-striped table-hover">
+  <tbody>
+    {% for request in requests %}
+    <tr class="success">
+      <td>
+        <p style="font-size:12pt; color:#FEF9E7">
+            {{ request["pref_name"] }} has requested a meal at {{ request["restaurant"] }} on {{ request["date"] }} 
+            at {{ request["time"] }}!
+        </p>
+      </td>
+      <td>
+          <button class="btn btn-default" name = "accept" type="submit" value = {{request['id']}}>Accept</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

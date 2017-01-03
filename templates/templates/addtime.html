@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Addtime
+{% endblock %}
+
+{% block main %}
+<form action="{{ url_for('addtime') }}" method="post">
+
+<link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.css">
+<link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.date.css">
+<link rel="stylesheet" href="https://common.olemiss.edu/_js/pickadate.js-3.5.3/lib/themes/classic.time.css"> 
+
+<!--Per Flask's documentation on error messages-->
+{% if error %}
+  <div align="center" style ="color:red">
+  <p class=error><strong>Error:</strong> {{ error }}</p>
+  </div>
+{% endif %}
+
+<div class = "container">
+    <div class = "row">
+            <div class = "col-md-5 col-md-offset-1">
+            <h2>My Schedule</h2>
+                <p><h4>Please input an available day: </h4></p>
+                <input id = "inputDate" name ="inputDate" class="" type="text" placeholder="Choose date&hellip;">
+                <br></br>
+                <p><h4>Select a time for the reservation: </h4></p>
+                <input id = "inputTime" name ="inputTime" class="" type="text" placeholder="Choose time&hellip;">
+                <br></br>
+                <div class="form-group">
+                    <button class="btn btn-success" name = "button_pressed" type="submit" value = "add">Add Time</button>
+                </div>
+        </div>
+        <div class = "col-md-5 col-md-offset-1">
+            <h2>My Availability</h2>
+            <p>You are listed as available at the following times:</p>
+            <div class="form-group">
+            {% for time in times %}
+                    <input type="checkbox" name="delete_this" id = "four" value= "{{ time[ 'time_id' ]}}">
+                    {{ time["day"] }}  {{ time["time"] }} <br />
+            {% endfor %}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger" name = "button_pressed" type="submit" value = "delete">Delete Selected</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://common.olemiss.edu/_js/pickadate.js"></script>   
+
+<script type="text/javascript">
+// PICKADATE FORMATTING
+	$('#inputDate').pickadate({
+		format: 'mmmm d, yyyy', 	// Friendly format displayed to user
+		formatSubmit: 'mm/dd/yyyy',	// Actual format used by application
+		//hiddenName: true			// Allows two different formats
+	});
+	
+	$('#inputTime').pickatime();
+	
+</script>
+
+{% endblock %}

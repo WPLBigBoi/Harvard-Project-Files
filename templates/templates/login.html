@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="{{ url_for('login') }}" method="post">
+        <!--Per Flask's documentation on error messages-->
+        {% if error %}
+            <div align="center" style ="color:red">
+            <p class=error><strong>Error:</strong> {{ error }}</p>
+            </div>
+        {% endif %}
+        
+        <fieldset>
+            <div class="form-group" align="center">
+                <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Email address" type="text" style="width: 350px;" />
+            </div>
+            <div class="form-group" align = "center">
+                <input class="form-control" name="password" placeholder="Password" type="password" style="width: 350px;" />
+            </div>
+            <div class="form-group" align = "center">
+                <button class="btn btn-default" type="submit">Log In</button>
+            </div>
+            
+        </fieldset>
+    </form>
+{% endblock %}
